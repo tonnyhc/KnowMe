@@ -1,0 +1,50 @@
+.right .row-9 .author img {
+    object-fit: cover;
+    width: 50px;
+    height: 50px;
+    border: 1px solid #DBDBDB;
+    box-shadow: 1px 2px 3px #DBDBDB;
+    border-radius: 50%;
+}
+
+main>.post-details-container>div {
+    border: 1px solid #DBDBDB;
+    border-radius: 5px;
+    box-shadow: 1px 2px 3px whitesmoke;
+}
+
+img {
+    object-fit: cover;
+}
+
+.lower .comment-form form button {
+    border: 0;
+    background: transparent;
+    color: #1877f2;
+}
+
+.lower .comment-form form button:hover {
+    color: grey;
+}
+
+.lower .comment-form form textarea {
+    width: 100%;
+    border: 0;
+    resize: none;
+    max-height: 30px;
+
+}
+.lower .comment-form form textarea:focus-visible{
+    border: 0
+}
+.action-section .buttons a svg:hover{
+    fill: darkgray !important;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.comment:hover > div > .comment-text > button{
+    display: block!important;
+}

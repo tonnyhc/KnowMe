@@ -1,0 +1,33 @@
+<div class="modal fade" id="postReportModal{{ post.pk }}" tabindex="-1" role="dialog" aria-labelledby="postReport"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header d-flex">
+                <h5 class="modal-title" id="postReport">Report</h5>
+                <button style="border:0; background: transparent; font-weight: 900; font-size: 18px" type="button"
+                        class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" action="{% url 'report post' post.pk %}">
+                <div class="modal-body d-flex">
+                    <label class="me-3" for="id_text">Report text:</label>
+                    <style>
+                        textarea {
+                        min-height: 60px;
+                        height: 60px;
+                        width: 100%;
+                        border: 1px solid #DBDBDB;
+                        border-radius: 5px;}
+                    </style>
+
+                    {{ report_form.text }}
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    {% csrf_token %}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

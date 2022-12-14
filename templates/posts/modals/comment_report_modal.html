@@ -1,0 +1,53 @@
+<div class="modal fade" id="commentReportModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body d-flex flex-column">
+                <div class="d-flex flex-column">
+                        <span class="text-center d-flex align-items-center"
+                              style=" border-bottom:1px solid #DBDBDB; font-weight: 600">
+                            <a data-bs-toggle="modal"
+                               data-bs-target="#commentReportFormModal{{ comment.pk }}" data-bs-dismiss="modal" class="mb-2"
+                               style="color: #ED4956;text-decoration: none; width: 100%;" href="#">Report</a></span>
+                    <span style="cursor: pointer;" class="text-center mt-2">Close</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="commentReportFormModal{{ comment.pk }}" tabindex="-1" role="dialog"
+     aria-labelledby="commentReport"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header d-flex">
+                <h5 class="modal-title" id="commentReport">Report</h5>
+                <button style="border:0; background: transparent; font-weight: 900; font-size: 18px" type="button"
+                        class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" action="{% url 'report comment' comment_id=comment.pk %}">
+                <div class="modal-body d-flex">
+                    <label class="me-3" for="id_text">Report text:</label>
+                    <style>
+                        textarea {
+                            min-height: 60px;
+                            height: 60px;
+                            width: 100%;
+                            border: 1px solid #DBDBDB;
+                            border-radius: 5px;
+                        }
+                    </style>
+
+                    {{ comment_report_form.text }}
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    {% csrf_token %}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,59 @@
+<div class="modal fade" id="postLikes{{ post.pk }}" tabindex="-1">
+    <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-center">
+                <h5 class="modal-title">Likes</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- for like in likes -->
+
+                <div class="col-12 mb-4">
+                    {% for like in post.like_set.all %}
+                        <div class="row-12 mb-3 d-flex justify-content-between">
+                            <div class="profile d-flex">
+                                <div class="profile-picture">
+                                    <a href="{% url 'profile details' like.to_profile.pk %}">
+                                        {% if like.to_profile.picture %}
+                                            <img src="/media/{{ like.to_profile.picture }}"
+                                                 alt="" srcset="">
+                                        {% else %}
+                                            <img src="/media/profile_pics/base_profile_pic.png"
+                                                 alt="img">
+                                        {% endif %}
+                                    </a>
+                                </div>
+
+                                <div class="profile-username ms-2">
+                                    <div class="username">
+                                        <h4 style="font-size: 12px">{{ like.to_profile.user.username }}</h4>
+                                    </div>
+                                    {% if like.to_profile.get_full_name %}
+                                        <div style="font-size: 10px;" class="name">
+                                            {{ like.profile.get_full_name }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% if like.to_profile.pk != request.user.profile.pk %}
+                                <div class="action-btn">
+                                    <button style="border-radius: 15%; background: #1877f2; border: 1px solid whitesmoke;">
+                                        <a style="text-decoration: none; color: #FFFFFF"
+                                           href="{% url 'follow' like.to_profile.pk %}">
+                                            {% if like.to_profile.pk in request_user_followers %}
+                                                Unfollow
+                                            {% else %}
+                                                Follow
+                                            {% endif %}
+                                        </a>
+                                    </button>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+{% extends 'base/base.html' %}
+{% block page_content %}
+
+    <div class="container">
+        <div class="d-flex flex-row mt-5"
+             style="border: 1px solid #DBDBDB; width: 100%; min-height: 550px; background: #FFFFFF; box-shadow:1px 2px 3px black">
+            <div class="left" style="width: 30%;">
+                <div class="buttons d-flex flex-column text-center"
+                     style="height: 100%; border-right: 1px solid #DBDBDB;">
+                    <a class="{% if request.resolver_match.url_name == 'profile edit' %}active{% endif %}"
+                       href="{% url 'profile edit' request.user.profile.pk %}">
+                        Edit profile
+                    </a>
+                    <a href="{% url 'change password' %}"
+                       class="{% if request.resolver_match.url_name == 'change password' %}active{% endif %}">
+                        Change password
+                    </a>
+                    <a href="{% url 'account edit' request.user.pk %}"
+                       class="{% if request.resolver_match.url_name == 'account edit' %}active{% endif %}">
+                        Account settings
+                    </a>
+                </div>
+            </div>
+            <div class="right d-flex text-center flex-column" style="width: 70%; border: 1px solid #DBDBDB">
+                {% block settings_content %}
+                {% endblock %}
+            </div>
+        </div>
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_content %}
+    <div class="container d-flex justify-content-center align-items-center">
+        <div style="width: 350px; border: 1px solid #DBDBDB;" class="d-flex login-form flex-column mt-5">
+            <div class="header mt-5 d-flex justify-content-center">
+                <div class="logo">
+                    <img src="{% static 'base_pictures/knowme-logo.png' %}" alt="" srcset="">
+                </div>
+            </div>
+            <div class="body mt-5">
+                <form method="post" action="{% url 'sign in' %}" class="d-flex flex-column justify-content-center">
+                    {{ form.username.errors }}
+                    {{ form.username }}
+                    {{ form.password.errors }}
+                    {{ form.password }}
+                    {{ form.non_field_errors }}
+                    <p>
+                        <span class="ms-4 d-flex align-items-center">
+                            Remember me{{ form.remember_me }}
+                        </span>
+                    </p>
+                    <button class="ms-4 me-4 p-1" style="background-color:  #0095F6; color: whitesmoke;">Sign In
+                    </button>
+                    {% csrf_token %}
+                </form>
+            </div>
+            <div class="footer mt-3" style="border-top: 2px solid #DBDBDB">
+                <p class="mt-3 text-center">Don't have account yet? <a
+                        style="text-decoration: none; color:#0095F6; font-weight: 500;" href="{% url 'sign up' %}">Register</a>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

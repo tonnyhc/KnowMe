@@ -1,0 +1,9 @@
+{% extends 'base/base.html' %}
+{% block page_content %}
+    <div class="container flex-column d-flex align-items-center mt-5">
+        <h3>We are sorry, but the page you wanted to reach is not available</h3>
+        <span>The connection you have followed may be interrupted on the page may be removed. <a style="text-decoration: none; color:grey; font-weight: 500" href="{% url 'index' %}">
+            Go back to KnowMe
+        </a></span>
+    </div>
+{% endblock %}

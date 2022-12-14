@@ -1,0 +1,85 @@
+.buttons > a {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+}
+
+.buttons > a.active {
+    border-left: 2px solid rgba(0, 0, 0, 0.658);
+    /* background: #DBDBDB */
+}
+
+.buttons a:hover {
+    background-color: #FAFAFA;
+}
+
+.right form div{
+    width: 100%;
+}
+
+.right form input {
+    width: 55%;
+    height: 30px;
+    border: 1px solid #DBDBDB;
+    border-radius: 4px;
+}
+
+.right > form textarea {
+    width: 55%;
+    height: 55px;
+    border: 1px solid #DBDBDB;
+    border-radius: 4px;
+}
+
+.right > form input[type="date"] {
+    width: 115px;
+    border: 1px solid #DBDBDB;
+    border-radius: 4px;
+}
+
+.right > form select {
+    border: 1px solid #DBDBDB;
+    border-radius: 4px;
+    color: #555;
+    padding: 5px 0 10px;
+    display: inherit
+}
+
+.right form label {
+    font-weight: 500;
+    font-family: revert;
+}
+
+.right form button {
+    height: 40px;
+    width: 100px;
+    border-radius: 10px;
+    background: #0095F6;
+    border: 0;
+    color: whitesmoke;
+}
+.errorlist li{
+    list-style: none;
+    font-weight: 500;
+}
+
+.right > form input[type="file"]::file-selector-button {
+    margin-right: 20px;
+    border: none;
+    background: #DBDBDB;
+    border-radius: 10px;
+    color: #1877f2;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
+}
+
+.right .pic img {
+    width: 75px;
+    height: 75px;
+    border: 0;
+    border-radius: 50%;
+}

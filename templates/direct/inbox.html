@@ -1,0 +1,55 @@
+{% extends 'base/base.html' %}
+{% block page_content %}
+    {% load filters %}
+    <div class="container direct mt-5 d-flex">
+        <div class="left d-flex flex-column">
+            <div class="username d-flex align-items-center justify-content-center" style="border-bottom: 1px solid #DBDBDB; height: 10%;">
+                <a href="{% url 'profile details' request.user.profile.pk %}">
+                    {{ request.user }}
+                </a>
+            </div>
+            <div class="conversations p-2 mt-2 mb-2">
+                {% for profile,info in profiles.items %}
+                    <a href="{% url 'direct' profile %}" style="text-decoration: none; color:black">
+                        <div class="convo {% if active_direct == profile.user.username %} active-direct {% endif %} p-2 d-flex {% if not info|get_item:'is_read' %} unread {% endif %} mb-3">
+                            <div class="profile">
+                                {% if profile.picture %}
+                                    <img src="/media/{{ profile.picture }}" width="50" height="50"
+                                         style="border-radius: 50%">
+                                {% else %}
+                                    <img src="/media/profile_pics/base_profile_pic.png" width="50" height="50"
+                                         style="border-radius: 50%">
+                                {% endif %}
+                            </div>
+                            <div class=" ms-2 message-text">
+                                <div class="profile-name">
+                                    {% if profile.get_full_name %}
+                                        {{ profile.get_full_name }}
+                                    {% else %}
+                                        {{ profile.user }}
+                                    {% endif %}
+                                </div>
+                                <div class="latest-message {% if not info|get_item:'is_read' %} unread {% endif %} d-flex justfify-content-between"
+                                     style="font-size: 13px; color: grey;">
+                                    <div class="message-text">
+                                        {{ info|get_item:'text' }}
+                                    </div>
+                                    <div class="ms-1 date">
+                                        · {{ info|get_item:'date'|timesince }} ago
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="right">
+            {% block direct_content %}
+            {% endblock %}
+        </div>
+
+    </div>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base/base.html' %}
+{% block page_content %}
+
+    <div class="container d-flex justify-content-center mt-5">
+        <div class="col-9 d-flex notifications">
+            <div class="follows" style="width: 100%">
+                <h2 class="text-center">Follows</h2>
+                <div class="d-flex flex-column">
+                    {% for follow in follows %}
+                        <div class="follow mb-4 ms-5 d-flex">
+                            <div class="profile">
+                                {% if like.to_profile.picture %}
+                                    <img src="/media/{{ like.to_profile.picture }}">
+                                {% else %}
+                                    <img src="/media/profile_pics/base_profile_pic.png">
+                                {% endif %}
+                            </div>
+                            <div class="text ms-3">
+                                <div>
+                                    <a href="{% url 'profile details' follow.profile_id %}">{{ follow.profile.user }}</a>
+                                    started following you
+                                </div>
+                                <div style="font-size: 12px; color: grey; font-weight: 500">
+                                    {{ follow.follow_date|timesince }} ago
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="likes" style="width: 100%">
+                <h2 class="text-center">Likes</h2>
+                <div class="d-flex flex-column">
+                    {% for like in likes %}
+                        <div class="like mb-4 ms-5 d-flex">
+                            <div class="profile">
+                                {% if like.to_profile.picture %}
+                                    <img src="/media/{{ like.to_profile.picture }}">
+                                {% else %}
+                                    <img src="/media/profile_pics/base_profile_pic.png">
+                                {% endif %}
+                            </div>
+                            <div class="text ms-3">
+                                <div>
+                                    <a href="{% url 'profile details' like.to_profile.pk %}">{{ like.to_profile.user.username }}</a>
+                                    liked your photo
+                                </div>
+                                <div style="font-size: 12px; color: grey; font-weight: 500">
+                                    {{ like.publish_date|timesince }} ago
+                                </div>
+                            </div>
+                            <div class="liked-post ms-4">
+                                <img src="/media/{{ like.to_post.photo }}">
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

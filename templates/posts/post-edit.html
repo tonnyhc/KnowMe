@@ -1,0 +1,37 @@
+{% extends 'base/base.html' %}
+
+{% block page_content %}
+    <div class="container d-flex justify-content-center">
+        <div class="col-6 d-flex justify-content-center mt-5" style="width: 450px;">
+            <form method="post" action="{% url 'post edit' post.pk %}"
+                  class="form add-post text-center d-flex flex-column justify-content-center"
+                  style="width: 100%; background: #FFFFFF; box-shadow: 1px 2px 3px black">
+                <div class="header mb-3 text-center" style="border-bottom: 1px solid #DBDBDB; width: inherit;">
+                    <h5 class="d-flex align-items-center justify-content-center p-2">Edit post</h5>
+                </div>
+                <div class="middle">
+                    <div class="media">
+                        <img src="/media/{{ post.photo }}" width="150" height="150"
+                             style="object-fit: cover; border-radius: 9px">
+                    </div>
+                </div>
+                <div class="body d-flex flex-column text-center justify-content-center">
+                    <p class="ms-5 me-5 mt-2 mb-2 d-flex justify-content-between">
+                        <label for="id_photo">Description:</label>
+                        {{ form.description }}
+                    </p>
+                    <p class="ms-5 me-5 mt-2 mb-2 d-flex justify-content-between">
+                        <label for="id_photo">Location:</label>
+                        {{ form.location }}
+                    </p>
+                    <p class="mt-3">
+                        <button style="background-color: #0095F6; border:0; border-radius:8px; color:whitesmoke; width: 80px;height: 28px;"
+                                type="submit">Edit
+                        </button>
+                        {% csrf_token %}
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

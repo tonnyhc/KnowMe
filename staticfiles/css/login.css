@@ -1,0 +1,27 @@
+.container .body form input{
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-bottom: 10px;
+    border: 1px solid #DBDBDB;
+    border-radius: 3px;
+}
+.container .body form label{
+    display: none;
+}
+.container .body form button{
+    border:0;
+    border-radius: 3px;
+    font-weight: 400;
+}
+.container .body form .helptext{
+    display: none;
+}
+
+.errorlist li {
+    color: red;
+}
+.login-form p span input{
+    margin-left: 5px !important;
+    margin-bottom: 0!important;
+    margin-right: 0!important;
+}

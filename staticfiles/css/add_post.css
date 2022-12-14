@@ -1,0 +1,31 @@
+.add-post .body p input {
+    border: 1px solid #DBDBDB;
+    border-radius: 8px;
+    width: 250px;
+}
+
+.add-post .body p input[type="file"] {
+    border-radius: 8px;
+    padding: 2px;
+}
+
+.add-post .body p input[type="file"]::file-selector-button {
+  margin-right: 20px;
+  border: none;
+  background: #DBDBDB;
+  border-radius: 10px;
+  color: #1877f2;
+  cursor: pointer;
+  transition: background .2s ease-in-out;
+}
+
+.add-post .body form p {
+    margin: 10px 10px 10px 10px
+}
+
+.add-post {
+    width: 100%;
+    border: 1px solid #DBDBDB;
+    border-radius: 7px;
+
+}

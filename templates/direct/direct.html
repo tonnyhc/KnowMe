@@ -1,0 +1,63 @@
+{% extends 'direct/inbox.html' %}
+{% block direct_content %}
+    <div class="d-flex flex-column" style="height: 100%;">
+        <div class="recipient d-flex align-items-center"
+             style="border-bottom: 1px solid #DBDBDB; width: 100%; height: 10%;">
+            <div class="d-flex ms-5 align-items-center">
+                <div class="picture p-2">
+                    <a href="{% url 'profile details' direct_profile.pk %}">
+                        {% if direct_profile.picture %}
+                            <img width="40" height="40" style="border-radius: 50%"
+                                 src="/media/{{ direct_profile.picture }}">
+                        {% else %}
+                            <img src="/media/profile_pics/base_profile_pic.png" width="40" height="40"
+                                 style="border-radius: 50%;">
+                        {% endif %}
+                    </a>
+                </div>
+                <div class="recipient-name ms-2">
+                    <a href="{% url 'profile details' direct_profile.pk %}">
+                        {% if direct_profile.get_full_name %}
+                            {{ direct_profile.get_full_name }}
+                        {% else %}
+                            {{ direct_profile.user }}
+                        {% endif %}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="conversation d-flex flex-column mt-2">
+            {% for message  in conversation_messages %}
+                {% if message.sender_id == request.user.profile.pk %}
+                    <div class="row-right mb-2 d-flex justify-content-end">
+                        <div class="send right p-2 me-2">
+                            <span>{{ message.text }}</span>
+                        </div>
+                    </div>
+
+                {% else %}
+                    <div class="d-flex ms-3 align-items-center">
+                        {% if message.sender.picture %}
+                            <img src="/media/{{ message.sender.picture }}" width="35" height="35"
+                                 style="border-radius: 50%">
+                        {% endif %}
+                        <div class="receive ms-3 left p-2">
+                        <span>
+                            {{ message.text }}
+                        </span>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <form class="form conversation mt-2 d-flex align-items-center mb-2 " style="height: 35px; width: 100%;" method="post"
+              action="{% url 'send direct' direct_profile.user.username direct_profile.pk %}">
+            {{ direct_form }}
+            <button type="submit">Send</button>
+            {% csrf_token %}
+        </form>
+
+    </div>
+
+{% endblock %}

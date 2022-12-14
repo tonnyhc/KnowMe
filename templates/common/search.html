@@ -1,0 +1,38 @@
+{% extends 'base/base.html' %}
+{% block page_content %}
+    <div class="container search-results d-flex justify-content-center mt-5">
+        <div class="col-6 query-profiles">
+            {% if not profiles %}
+            <div class="row-6">
+                <h2>Search pattern doesn't match any users</h2>
+            </div>
+            {% endif %}
+            {% for profile in profiles %}
+                <a href="{% url 'profile details' profile.pk %}">
+                    <div class="row-6 mb-3">
+                        <div class="search-profile d-flex">
+                            <div class="picture">
+                                {% if profile.picture %}
+                                    <img src="/media/{{ profile.picture }}">
+                                {% else %}
+                                    <img src="/media/profile_pics/base_profile_pic.png">
+                                {% endif %}
+                            </div>
+                            <div class="info-profile ms-2">
+                                <div class="username">
+                                    {{ profile.user }}
+                                </div>
+                                {% if profile.get_full_name %}
+                                    <div class="full-name">
+                                        {{ profile.get_full_name }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+
+    </div>
+{% endblock %}

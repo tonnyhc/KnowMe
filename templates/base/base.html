@@ -1,0 +1,177 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Know Me</title>
+    <link rel="icon" href="{% static 'base_pictures/knowme-icon.ico' %}">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+
+<body style="background: #FAFAFA">
+{% if request.user.is_authenticated %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light w-20px">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <img src="{% static 'base_pictures/knowme-logo.png' %}" width="100px" height="30px">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse mx-auto w-100" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 navbar-ul">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}"
+                           aria-current="page" href="{% url 'index' %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-house" viewBox="0 0 16 16">
+                                <path
+                                        d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z"/>
+                            </svg>
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'direct' or request.resolver_match.url_name == 'inbox' %}active{% endif %}"
+                           href="{% url 'inbox' %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                 fill="currentColor" class="bi bi-chat-left" viewBox="0 0 16 16">
+                                <path
+                                        d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                            </svg>
+                            Messages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'notifications' %}"
+                           class="nav-link {% if request.resolver_match.url_name == 'notifications' %}active{% endif %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-bell" viewBox="0 0 16 16">
+                                <path
+                                        d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/>
+                            </svg>
+                            Notifications
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'post add' %}active{% endif %}"
+                           href="{% url 'post add' %}" tabindex="-1" aria-disabled="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-plus" viewBox="0 0 16 16">
+                                <path
+                                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                            </svg>
+                            Create
+                        </a>
+                    </li>
+                    <div class="d-flex align-items-center">
+                        <form class="d-flex searchbar align-items-center" method="get" action="{% url 'search' %}"
+                              autocomplete="off">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi me-2 bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                            </svg>
+                            {{ search_form }}
+                        </form>
+                    </div>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-list" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                      d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                            </svg>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item"
+                                   href="{% url 'profile details' request.user.profile.pk %}">Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'profile edit' request.user.profile.pk %}">Settings</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            {% if request.user.is_staff %}
+                                <li>
+                                    <a class="dropdown-item" href="/admin">Staff panel</a>
+                                </li>
+                            {% endif %}
+                            <li><a class="dropdown-item" href="{% url 'sign out' %}">Sign out</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+{% else %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light w-20px">
+        <div class="container-fluid d-flex justify-content-around">
+            <div class="logo">
+                <a class="navbar-brand" href="{% url 'index' %}">
+                    <img src="{% static 'base_pictures/knowme-logo.png' %}" width="100px" height="30px">
+                </a>
+            </div>
+            <form class="d-flex searchbar align-items-center" method="get" action="{% url 'search' %}"
+                  autocomplete="off">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi me-2 bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                </svg>
+                {{ search_form }}
+            </form>
+            <div class="buttons d-flex">
+                <div class="login">
+                    <button style="background-color:#0095F6; border:0; border-radius: 6px;">
+                        <a style="text-decoration: none; color: whitesmoke; background: transparent"
+                           href="{% url 'sign in' %}">Login</a>
+                    </button>
+                </div>
+                <div class="register ms-2">
+                    <button style="background: transparent; border:0; ">
+                        <a style="text-decoration: none; color:#0095F6" href="{% url 'sign up' %}">Register</a>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+{% endif %}
+<main>
+    {% block page_content %}
+
+    {% endblock %}
+</main>
+<footer>
+    <div class="footer d-flex flex-column align-items-center mt-4 mb-5">
+        <div class="row-9 d-flex inline-flex">
+            <div class="about d-flex me-3">
+                <a href="{% url 'about' %}#about">
+                    About
+                </a>
+            </div>
+            <div class="contacts d-flex me-3" >
+                <a href="{% url 'about' %}#contacts">
+                    Contacts
+                </a>
+            </div>
+        </div>
+        <div class="KnowMe mt-2">
+            &#169; 2022 KnowMe
+        </div>
+    </div>
+</footer>
+</body>
+</html>
+

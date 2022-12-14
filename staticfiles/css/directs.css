@@ -1,0 +1,88 @@
+.container.direct {
+    border: 1px solid #DBDBDB;
+    width: 65%;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+    padding: 0;
+    max-height: 83vh;
+    height: 83vh;
+}
+
+.direct .left {
+    width: 37%;
+    border-right: 1px solid #DBDBDB;
+}
+
+.direct .right {
+    width: 63%;
+}
+
+.username a {
+    color: black;
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.conversations {
+    overflow-y: scroll;
+}
+
+.conversations .active > div {
+    background-color: #EFEFEF;
+}
+
+.unread {
+    font-weight: 600;
+    color: black;
+}
+
+.convo:hover {
+    background-color: #EFEFEF;
+}
+
+.active-direct {
+    background-color: #EFEFEF;
+}
+
+.recipient a {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+}
+
+.recipient a:hover {
+    color: grey;
+}
+
+.receive {
+    background-color: #FFFFFF;
+    border: 0.2px solid #DBDBDB;
+    border-radius: 18px;
+    width: fit-content!important;
+    max-width: 45%;
+}
+
+.send {
+    background-color: #DBDBDB;
+    border: 0.2px solid #DBDBDB;
+    border-radius: 18px;
+    width: fit-content!important;
+    max-width: 45%;
+}
+.conversation{
+    height: 80%;
+    overflow: scroll;
+}
+.form.conversation textarea{
+    height: 35px;
+    width: 100%;
+    margin: 0 15px 0 15px;
+    border: 1px solid #DBDBDB;
+    border-radius: 15px;
+    resize: none;
+}
+.form.conversation button{
+    background-color: transparent;
+    color: #0095F6;
+}

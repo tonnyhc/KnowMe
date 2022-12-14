@@ -1,0 +1,30 @@
+.search-profile .picture img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.query-profiles {
+    border: 1px solid #DBDBDB;
+    border-radius: 5px;
+    padding: 13px;
+    background-color: #FFFFFF;
+}
+
+.query-profiles a {
+    text-decoration: none;
+    color: black
+}
+.query-profiles .row-6:hover{
+    background-color: #FAFAFA;
+}
+.query-profiles a:hover{
+    color:inherit;
+}
+.search-profile .username{
+    font-weight: 500;
+}
+.search-profile .full-name{
+    font-size: 13px;
+    color: grey;
+}

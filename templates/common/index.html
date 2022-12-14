@@ -1,0 +1,183 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_content %}
+
+
+    <div class="container mt-5 d-flex justify-content-center">
+        <div class="col-5">
+            {% for post in posts %}
+                <div class="post-wrapper" id="{{ post.pk }}">
+                    <div class="card mt-3 d-flex post mb-3" style="background: transparent">
+                        <div class="row-5">
+                            <div class="profile d-flex justify-content-between mb-2">
+                                <div class="profile-info d-flex">
+                                    <div class="profile-photo">
+                                        <a href="{% url 'profile details' post.profile.pk %}">
+                                            {% if post.profile.picture %}
+                                                <img src="/media/{{ post.profile.picture }}" alt="" srcset="">
+                                            {% else %}
+                                                <img src="/media/profile_pics/base_profile_pic.png">
+                                            {% endif %}
+                                        </a>
+                                    </div>
+                                    <div class="profile-username location ms-2" style="font-size: 12px;">
+                                        <a href="{% url 'profile details' post.profile.pk %}">
+                                            <span>{{ post.profile.user.username }}</span>
+                                        </a>
+                                        <!-- location if any -->
+                                        {% if post.location %}
+                                            <div class="location">
+                                                <span>{{ post.location }}</span>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="post-date">
+                                    <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                               fill="currentColor" class="bi bi-dot" viewBox="0 0 16 16">
+                                            <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                                        </svg></span>
+                                        <span>{{ post.publish_date }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="post-options">
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#postOptionsModal{{ post.pk }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" style="color: black;" width="16"
+                                             height="16"
+                                             fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                            <path
+                                                    d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="row-5">
+                            <div class="photo-image">
+                                <img src="/media/{{ post.photo }}" alt="image" srcset="">
+                            </div>
+                        </div>
+                        <div class="row-5">
+                            <div class="action-buttons mt-2 d-flex justify-content-between">
+                                <div class="left d-flex">
+                                    <div class="like ml-2">
+                                        <a href="{% url 'like_post' post.pk %}">
+                                            {% if post.pk in all_liked_posts_by_request_user %}
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                     fill="red" class="bi bi-suit-heart-fill"
+                                                     viewBox="0 0 16 16">
+                                                <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"/>
+                                            {% else %}
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                     fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                                    <path
+                                                            d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                                                </svg>
+                                            {% endif %}
+
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <div class="share">
+                                        <a href="{% url 'share post' post.pk %}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                 fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                                                <path
+                                                        d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="right d-flex">
+                                    <div class="save">
+                                        <a href="{% url 'save_post' post.pk %}">
+                                            {% if post.pk in all_saved_posts_by_request_user %}
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                     fill="rgb(30,144,255)" class="bi bi-bookmark-fill"
+                                                     viewBox="0 0 16 16">
+                                                    <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/>
+                                                </svg>
+                                            {% else %}
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                     fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                                                    <path
+                                                            d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
+                                                </svg>
+                                            {% endif %}
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="post-desc mt-2">
+                                <div class="likes">
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#postLikes{{ post.pk }}">
+                                        <span>{{ post.like_set.all|length }}</span>
+                                        likes
+                                    </a>
+                                </div>
+
+                                <!-- if description -->
+
+                                <div class="description d-flex align-items-center mt-2">
+                                    <a href="{% url 'profile details' post.profile.pk %}">
+                                        <div class="desc-profile">
+                                            {{ post.profile.user.username }}
+                                        </div>
+                                    </a>
+                                    <div class="description-content ms-2" style="font-size: 14px;">
+                                        {% if post.description %}
+                                            {{ post.description }}
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="comments-section mt-2">
+                                    <div class="all-comments mb-1">
+                                        {% if post.comment_set.all|length > 3 %}
+                                            <a href="{% url 'post details' post.pk %}">
+                                                View all <span>{{ post.comment_set.all|length }}</span> comments
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                    <!-- for comment in comments -->
+                                    {% for comment in post.comment_set.all|slice:":3" %}
+                                        <div class="comment mb-1 d-flex">
+                                            <div class="comment-author">
+                                                <a href="{% url 'profile details' comment.profile.pk %}">{{ comment.profile.user.username }}</a>
+                                            </div>
+                                            <div class="comment-content ms-1">
+                                                {{ comment.text }}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="comment mb-3">
+                                <div class="form-floating mt-2">
+                                    <form class="d-flex justify-content-between" method="post"
+                                          action="{% url 'add_comment' post.pk %}">
+                                        {{ comment_form }}
+                                        <button style="border: 0; background: transparent; font-weight: 500; font-size: 12px; color: #007FFF"
+                                                type="submit">Post
+                                        </button>
+                                        {% csrf_token %}
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% include 'posts/modals/post_likes_modal.html' %}
+                    {% include 'posts/modals/post_options_modal.html' %}
+                    {% include 'posts/modals/post_delete_modal.html' %}
+                    {% include 'posts/modals/post_report_modal.html' %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

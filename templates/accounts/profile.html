@@ -1,0 +1,379 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_content %}
+
+    <main>
+        <div class="container mt-3 d-flex justify-content-center">
+            <div class="profile-content col-9">
+                <div class="row-9 mb-5 d-flex flex-row justify-content-center">
+                    <div class="profile-picture mt-4 me-5">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#chageProfilePicModal">
+                            {% if object.picture %}
+                                <img src="/media/{{ object.picture }}" width="135" height="135" alt="" srcset="">
+                            {% else %}
+                                <img src="/media/profile_pics/base_profile_pic.png" width="135" height="135">
+                            {% endif %}
+                        </a>
+                    </div>
+                    <div class="profile-text ms-5">
+                        <div class="row-9 d-inline-flex" style="font-size: 25px;">
+                            <div class="username" style="font-weight: 300;">
+                                {{ object.user.username }}
+                            </div>
+                            <div class="action-buttons ms-5 d-flex">
+                                <div class="follow d-flex justify-content-center align-items-center">
+                                    {% if request.user.profile.pk != object.pk %}
+                                        <a href="{% url 'follow' object.pk %}">
+                                            {% if not is_following %}
+                                                Follow
+                                            {% else %}
+                                                Unfollow
+                                            {% endif %}
+                                        </a>
+                                    {% else %}
+                                        <a href="{% url 'profile edit' object.pk %}">
+                                            Edit profile
+                                        </a>
+                                    {% endif %}
+                                </div>
+                                {% if request.user.profile.pk != object.pk %}
+                                    <div class="follow d-flex justify-content-center align-items-center ms-2">
+                                        <a href="{% url 'direct' object.user.username %}">
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                Message
+                                            </div>
+                                        </a>
+                                    </div>
+                                    {% if request.user.is_authenticated %}
+                                        <div class="report ms-2">
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#reportProfileModal">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                     fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                                    <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                                <div class="settings ms-5">
+                                    {% if request.user.profile.pk == object.pk %}
+                                        <a href="{% url 'profile edit' object.pk %}">
+                                            <svg style="width: 25px;" xmlns="http://www.w3.org/2000/svg" width="16"
+                                                 height="16" fill="currentColor" class="bi bi-gear-wide"
+                                                 viewBox="0 0 16 16">
+                                                <path
+                                                        d="M8.932.727c-.243-.97-1.62-.97-1.864 0l-.071.286a.96.96 0 0 1-1.622.434l-.205-.211c-.695-.719-1.888-.03-1.613.931l.08.284a.96.96 0 0 1-1.186 1.187l-.284-.081c-.96-.275-1.65.918-.931 1.613l.211.205a.96.96 0 0 1-.434 1.622l-.286.071c-.97.243-.97 1.62 0 1.864l.286.071a.96.96 0 0 1 .434 1.622l-.211.205c-.719.695-.03 1.888.931 1.613l.284-.08a.96.96 0 0 1 1.187 1.187l-.081.283c-.275.96.918 1.65 1.613.931l.205-.211a.96.96 0 0 1 1.622.434l.071.286c.243.97 1.62.97 1.864 0l.071-.286a.96.96 0 0 1 1.622-.434l.205.211c.695.719 1.888.03 1.613-.931l-.08-.284a.96.96 0 0 1 1.187-1.187l.283.081c.96.275 1.65-.918.931-1.613l-.211-.205a.96.96 0 0 1 .434-1.622l.286-.071c.97-.243.97-1.62 0-1.864l-.286-.071a.96.96 0 0 1-.434-1.622l.211-.205c.719-.695.03-1.888-.931-1.613l-.284.08a.96.96 0 0 1-1.187-1.186l.081-.284c.275-.96-.918-1.65-1.613-.931l-.205.211a.96.96 0 0 1-1.622-.434L8.932.727zM8 12.997a4.998 4.998 0 1 1 0-9.995 4.998 4.998 0 0 1 0 9.996z"/>
+                                            </svg>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-9 d-flex mt-3">
+                            <div class="profile-posts">
+                                <span>{{ posts_count }}</span>
+                                posts
+                            </div>
+                            <div class="profile-followers ms-3">
+                                {% if followers_count == 0 %}
+                                    <span>{{ followers_count }} followers</span>
+                                {% else %}
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#followersModal">
+                                        <span>{{ followers_count }}</span>
+                                        followers
+                                    </a>
+                                {% endif %}
+                            </div>
+                            <div class="profile-following ms-3">
+                                {% if followings_count == 0 %}
+                                    <span>{{ followings_count }} following</span>
+                                {% else %}
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#followingModal">
+                                        <span>{{ followings_count }}</span>
+                                        following
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row-9 mt-3">
+                            <div class="bio-name">
+                                <div class="name">
+                                    <!-- Change name -->
+                                    {% if object.get_full_name %}
+                                        <h3 style="font-size: 16px">{{ object.get_full_name }}</h3>
+                                    {% endif %}
+                                </div>
+                                <div class="bio mt-2" style="font-size: 15px;">
+                                    <!-- Change bio -->
+                                    {% if object.bio %}
+                                        {{ object.bio }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row empty"></div>
+
+                <div class="row-9 d-flex justify-content-center mt-5" style="border-top: 1px solid #DBDBDB;">
+                    <div class="mt-1 row-5 d-flex d-inline-flex justify-content-center profile-content-selector">
+                        {# TODO: make the selector working properly Posts/Saved/Tagged #}
+                        <a class="me-5" href="#">
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-grid-3x3-gap" viewBox="0 0 16 16">
+                                    <path
+                                            d="M4 2v2H2V2h2zm1 12v-2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1zm0-5V7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1zm0-5V2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1zm5 10v-2a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1zm0-5V7a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1zm0-5V2a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1zM9 2v2H7V2h2zm5 0v2h-2V2h2zM4 7v2H2V7h2zm5 0v2H7V7h2zm5 0h-2v2h2V7zM4 12v2H2v-2h2zm5 0v2H7v-2h2zm5 0v2h-2v-2h2zM12 1a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h-2zm-1 6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V7zm1 4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1h-2z"/>
+                                </svg>
+                                <span>
+                                    Posts
+                                </span>
+                            </div>
+                        </a>
+                        <a class="me-5" href="#">
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-bookmark" viewBox="0 0 16 16">
+                                    <path
+                                            d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
+                                </svg>
+                                <span>
+                                    Saved
+                                </span>
+                            </div>
+                        </a>
+                        <a class="me-5" href="#">
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-tag" viewBox="0 0 16 16">
+                                    <path
+                                            d="M6 4.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-1 0a.5.5 0 1 0-1 0 .5.5 0 0 0 1 0z"/>
+                                    <path
+                                            d="M2 1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 1 6.586V2a1 1 0 0 1 1-1zm0 5.586 7 7L13.586 9l-7-7H2v4.586z"/>
+                                </svg>
+                                <span>Tagged</span>
+                            </div>
+
+                        </a>
+                    </div>
+                    <div class="row">
+
+                    </div>
+                </div>
+
+                <div class="row-9 mt-3">
+                    <div class="row-9">
+                        <div class="row-9 d-flex mb-3 d-inline-flex">
+                            {% if posts %}
+                                {% for post in posts %}
+                                    {% if forloop.counter|divisibleby:3 %}
+                                        <div class="row-9"></div>
+                                    {% endif %}
+                                    {# TODO: make them print only 3 on row #}
+                                    <div class="card me-2">
+                                        <a href="{% url 'post details' post.pk %}">
+                                            <img src="/media/{{ post.photo }}" width="285px" height="285px" alt=""
+                                                 srcset="">
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                {# TODO: make some good looking icon for when not posts #}
+                                <img src="/media/base_pics/no_posts_yet.png">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="modal fade" id="followersModal" tabindex="-1" aria-labelledby="followersModal"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-sm modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Followers</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="col-12">
+                                {% for follower in followers %}
+                                    <div class="row-12 mb-4 d-flex justify-content-between">
+                                        <div class="profile d-flex">
+                                            <div class="profile-picture">
+                                                <a href="{% url 'profile details' follower.profile.pk %}">
+                                                    {% if follower.profile.picture %}
+                                                        <img src="/media/{{ follower.profile.picture }}" alt=""
+                                                             srcset="">
+                                                    {% else %}
+                                                        <img src="/media/profile_pics/base_profile_pic.png">
+                                                    {% endif %}
+                                                </a>
+                                            </div>
+
+                                            <div class="profile-username ms-2">
+                                                <div class="username">
+                                                    <h4 style="font-size: 12px">{{ follower.profile.user.username }}</h4>
+                                                </div>
+                                                <!-- if the profile has name -->
+                                                <div style="font-size: 10px;" class="name">
+                                                    {% if follower.profile.get_full_name %}
+                                                        {{ follower.profile.get_full_name }}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="action-btn">
+                                            {% if request.user.profile.pk != follower.profile.pk %}
+                                                <button
+                                                        style="border-radius: 15%; background: #1877f2; border: 1px solid whitesmoke;">
+                                                    <div>
+
+                                                        <a style="text-decoration: none; color: #FFFFFF"
+                                                           href="{% url 'follow' follower.profile.pk %}">
+                                                            {% if request.user.profile.pk in request_user_followings %}
+                                                                Unfollow
+                                                            {% else %}
+                                                                Follow
+                                                            {% endif %}
+                                                        </a>
+
+                                                    </div>
+                                                </button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="followingModal" tabindex="-1" aria-labelledby="followingModal"
+             aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Following</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="col-12 mb-4">
+                            {% for following in followings %}
+                                <div class="row-12 mb-4 d-flex justify-content-between">
+                                    <div class="profile d-flex">
+                                        <div class="profile-picture">
+                                            <a href="{% url 'profile details' following.profile.pk %}">
+                                                {% if following.profile.picture %}
+                                                    <img src="/media/{{ following.profile.picture }}" alt="" srcset="">
+                                                {% else %}
+                                                    <img src="/media/profile_pics/base_profile_pic.png">
+                                                {% endif %}
+                                            </a>
+                                        </div>
+
+                                        <div class="profile-username ms-2">
+                                            <div class="username">
+                                                <h4 style="font-size: 12px">{{ following.profile.user.username }}</h4>
+                                            </div>
+                                            <!-- if the profile has name -->
+                                            <div style="font-size: 10px;" class="name">
+                                                {% if following.profile.get_full_name %}
+                                                    {{ following.profile.get_full_name }}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="action-btn">
+                                        {% if request.user.profile.pk != following.profile.pk %}
+                                            <button
+                                                    style="border-radius: 15%; background: #1877f2; border: 1px solid whitesmoke;">
+                                                <div>
+                                                    <a style="text-decoration: none; color: #FFFFFF"
+                                                       href="{% url 'follow' following.profile.pk %}">
+                                                        {% if request.user.profile.pk in request_user_followings %}
+                                                            Unfollow
+                                                        {% else %}
+                                                            Follow
+                                                        {% endif %}
+                                                    </a>
+                                                </div>
+                                            </button>
+                                        {% endif %}
+                                    </div>
+
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="chageProfilePicModal" tabindex="-1" aria-labelledby="changeProfilePicModal"
+             aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="chageProfilePicModal">Change profile picture</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="padding: 0;">
+                        <div class="row-9 d-flex justify-content-center mb-3" style="border-bottom: 1px solid #DBDBDB;
+                            height:40px; align-items: center;">
+                            <a href="{% url 'profile edit' object.pk %}"
+                               style="text-decoration: none; color:#1877f2; font-weight:600; font-size: 16px;">
+                                Change photo
+                            </a>
+                        </div>
+                        <div class="row-9 d-flex justify-content-center"
+                             style="border-bottom: 1px solid #DBDBDB; align-items: center;">
+                            <button type="button" style="background: transparent; border:0; font-weight: 500;"
+                                    class="" data-bs-dismiss="modal"
+                                    aria-label="Close">Close!
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        {% if request.user.is_authenticated %}
+            <div class="modal fade" id="reportProfileModal" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body d-flex flex-column justify-content-center align-items-center">
+                            <div class="d-flex justify-content-center"
+                                 style="width: 100%; border-bottom:1px solid #DBDBDB">
+                                <a data-bs-toggle="modal" data-bs-target="#profileReportModal" data-bs-dismiss="modal"
+                                   style="text-decoration: none; color: #ED4956; font-weight: 500;" class="reportButton"
+                                   href="#">
+                                    Report
+                                </a>
+                            </div>
+                            <div>
+                                <a style="text-decoration: none; color: black" href="#" data-bs-dismiss="modal">
+                                    Close
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% include 'accounts/modals/profile_report_modal.html' %}
+        {% endif %}
+    </main>
+
+{% endblock %}
+
+
+

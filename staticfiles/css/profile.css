@@ -1,0 +1,48 @@
+
+.profile-picture a img {
+    background: 0.5px solid #DBDBDB;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 1px 2px 3px #DBDBDB;
+}
+
+.profile-text a {
+    text-decoration: none;
+    color: black;
+}
+
+.profile-content .profile-text .follow {
+    border: 0.5px solid #DBDBDB;
+    border-radius: 10px;
+    width: 100px;
+    text-align: center;
+    background-color: #DBDBDB;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.profile-content .profile-text .follow:hover {
+    background-color: darkgrey;
+    cursor: pointer;
+}
+
+.profile-content-selector a {
+    text-decoration: none;
+    color: #8e8e9f;
+}
+
+.profile-content >.row-9 > .row-9 > .row-9 > .card a img{
+    margin: 10px;
+    width: 285px;
+    height: 285px;
+    border-radius: 2px;
+    box-shadow: 4px 4px 4px 4px #888888;
+    object-fit: cover;
+}
+.profile-content >.row-9 > .row-9 > .row-9 > .card a img:hover{
+    box-shadow: none;
+}
+.profile-content >.row-9 > .row-9 > .row-9 > .card{
+    border:0;
+    background-color: transparent;
+}

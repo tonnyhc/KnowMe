@@ -1,0 +1,64 @@
+html{
+    height: 100%;
+}
+
+
+body{
+    height: 100%;
+    width: 100%;
+}
+
+nav {
+    max-height: 55px;
+    min-height: 55px;
+    border: 1px solid #DBDBDB;
+}
+
+nav img {
+    height: 30px;
+}
+
+nav li {
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+nav form {
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.navbar-ul {
+    margin-left: 200px;
+}
+form.searchbar label{
+    display: none;
+}
+
+form.searchbar{
+    border: 1px solid #DBDBDB;
+    border-radius: 15px;
+    background-color: #FFFFFF;
+}
+
+form.searchbar input {
+    height: 33px;
+    resize: none;
+    border: 0;
+    background: #FFFFFF;
+    width: 250px;
+}
+.searchbar input:focus-visible{
+    outline: none;
+}
+
+.nav-item .active {
+    color: black;
+    font-weight: 500;
+}
+
+
+.footer a{
+    text-decoration: none;
+    color: grey;
+}

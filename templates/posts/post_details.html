@@ -1,0 +1,176 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_content %}
+
+    <div class="container post-details-container d-flex justify-content-center mt-5 mb-5">
+        <div class="col-9 d-flex" style="background: #FFFFFF; box-shadow: 1px 2px 3px black">
+            <div class="left" style="background-color: black;">
+                <img src="/media/{{ object.photo }}" style="object-fit: contain; width: fit-content" height="550px" alt="" srcset="">
+            </div>
+
+            <div class="right d-flex justify-content-between flex-column" style="width:100%;">
+                <div class="row-9 d-flex justify-content-between"
+                     style="width:inherit; padding:5px; border-bottom: 1px solid #DBDBDB;">
+                    <div class="author d-flex align-items-center" style="padding: 10px;">
+                        <div class="me-3">
+                            <a href="{% url 'profile details' object.profile.pk %}">
+                                {% if object.profile.picture %}
+                                    <img src="/media/{{ object.profile.picture }}" alt="" srcset="">
+                                {% else %}
+                                    <img src="/media/profile_pics/base_profile_pic.png">
+                                {% endif %}
+                            </a>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <a href="{% url 'profile details' object.profile.pk %}"
+                               style="text-decoration: none; color: black; font-weight: 500;">
+                                {{ object.profile.user.username }}
+                            </a>
+                            <span style="font-size: 11px; color: grey;">{{ object.publish_date|date:"M d, Y" }}</span>
+                        </div>
+                    </div>
+
+                    <div class="post-options d-flex align-items-center">
+                        <a href="#" data-bs-target="#postOptionsModal{{ object.pk }}" data-bs-toggle="modal"
+                           class="pe-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-three-dots" viewBox="0 0 16 16">
+                                <path
+                                        d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                            </svg>
+                        </a>
+                    </div>
+
+                </div>
+                <div class="row-9 p-2 d-flex flex-column align-bottom" style="height: 100%;">
+                    <div class="comments-section" style="height: 100%; overflow-y: scroll;">
+                        {# TODO: in the comments section show the description on top #}
+                        {# TODO: display something to say that there are no comments if no comments #}
+                        <div class="comments">
+                            <!-- for comment in comments -->
+                            {% for comment in comments %}
+                                <div class="comment mb-3">
+                                    <div class="d-flex">
+                                        <div class="profile-pic d-flex align-items-center">
+                                            <a href="{% url 'profile details' comment.profile.pk %}">
+                                                {% if comment.profile.picture %}
+                                                    <img src="/media/{{ comment.profile.picture }}" width="30px"
+                                                         height="30px" alt=""
+                                                         style="border:1px solid #DBDBBD; border-radius:50%; object-fit:cover;">
+                                                {% else %}
+                                                    <img width="30px" height="30px"
+                                                         style="border:1px solid #DBDBBD; border-radius:50%; object-fit:cover;"
+                                                         src="/media/profile_pics/base_profile_pic.png"
+                                                         alt="profile pic">
+                                                {% endif %}
+                                            </a>
+                                        </div>
+                                        <div class="profile-username d-flex flex-column ms-3">
+                                            <div class="username" style="font-weight: 500;">
+                                                <a href="{% url 'profile details' comment.profile.pk %}">
+                                                    {{ comment.profile.user.username }}
+                                                </a>
+                                            </div>
+                                            <div class="publish-date" style="font-size: 11px; color:grey;">
+                                                {{ comment.publish_date|date:"M d, Y" }}
+                                            </div>
+                                        </div>
+                                        <div class="comment-text d-flex flex-column ms-3">
+                                            <span>{{ comment.text }}</span>
+                                            <button style="display: none" data-bs-toggle="modal"
+                                                    data-bs-target="#commentReportModal" class="text-start">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                     fill="gray" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                                    <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% include 'posts/modals/comment_report_modal.html' %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="action-section d-flex align-bottom flex-column">
+                        <div class="upper" style="border-top: 1px solid #DBDBDB;">
+                            <div class="buttons d-flex justify-content-between p-2">
+                                <div class="left">
+                                    <a href="{% url 'like_post' object.pk %}" class="ms-2">
+                                        {% if is_user_liked|length > 0 %}
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                                                 fill="red" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
+                                                <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"/>
+                                            </svg>
+                                        {% else %}
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px"
+                                                 fill="black" class="bi bi-suit-heart" viewBox="0 0 16 16">
+                                                <path
+                                                        d="m8 6.236-.894-1.789c-.222-.443-.607-1.08-1.152-1.595C5.418 2.345 4.776 2 4 2 2.324 2 1 3.326 1 4.92c0 1.211.554 2.066 1.868 3.37.337.334.721.695 1.146 1.093C5.122 10.423 6.5 11.717 8 13.447c1.5-1.73 2.878-3.024 3.986-4.064.425-.398.81-.76 1.146-1.093C14.446 6.986 15 6.131 15 4.92 15 3.326 13.676 2 12 2c-.777 0-1.418.345-1.954.852-.545.515-.93 1.152-1.152 1.595L8 6.236zm.392 8.292a.513.513 0 0 1-.784 0c-1.601-1.902-3.05-3.262-4.243-4.381C1.3 8.208 0 6.989 0 4.92 0 2.755 1.79 1 4 1c1.6 0 2.719 1.05 3.404 2.008.26.365.458.716.596.992a7.55 7.55 0 0 1 .596-.992C9.281 2.049 10.4 1 12 1c2.21 0 4 1.755 4 3.92 0 2.069-1.3 3.288-3.365 5.227-1.193 1.12-2.642 2.48-4.243 4.38z"/>
+                                            </svg>
+                                        {% endif %}
+                                    </a>
+                                    <a href="{% url 'share post' object.pk %}" class="ms-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px"
+                                             fill="black" class="bi bi-send" viewBox="0 0 16 16">
+                                            <path
+                                                    d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                                <div class="right">
+                                    <a href="{% url 'save_post' object.pk %}">
+                                        {% if is_user_saved_post|length > 0 %}
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                                                 fill="rgb(30,144,255)" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+                                                <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/>
+                                            </svg>
+                                        {% else %}
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px"
+                                                 fill="black" class="bi bi-bookmark" viewBox="0 0 16 16">
+                                                <path
+                                                        d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
+                                            </svg>
+                                        {% endif %}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="middle mb-2 d-flex flex-column ms-3">
+                            <div style="font-size: 14px">
+                                <a href="#" data-bs-target="#postLikes{{ object.pk }}" data-bs-toggle="modal"
+                                   style='text-decoration: none; color: black; font-weight: 500;' href="#">
+                                    <span>{{ likes_count }}</span>
+                                    likes
+                                </a>
+                            </div>
+                            <div>
+                                <span style="font-size: 10px; color:grey">{{ object.publish_date|date:"M d, Y" }}</span>
+                            </div>
+                        </div>
+                        <div class="lower" style="border-top: 1px solid #DBDBDB">
+                            <div class="comment-form">
+                                <form method="post" action="{% url 'add_comment' object.pk %}" class="d-flex p-2"
+                                      style="width: 100%;">
+                                    {{ comment_form }}
+                                    <button type="submit">Post</button>
+                                    {% csrf_token %}
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    {% include 'posts/modals/post_likes_modal.html' %}
+    {% include 'posts/modals/post_options_modal.html' %}
+    {% include 'posts/modals/post_delete_modal.html' %}
+    {% include 'posts/modals/post_report_modal.html' %}
+
+{% endblock %}

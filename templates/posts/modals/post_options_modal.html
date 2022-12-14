@@ -1,0 +1,58 @@
+<div class="modal fade" id="postOptionsModal{{ post.pk }}" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-body d-flex flex-column">
+                {% if post.profile.pk != request.user.profile.pk %}
+
+                    <div style="border-bottom: 1px solid #dbdbdb;height: 40px;"
+                         class="align-items-center row text-center">
+                        <a href="#" data-bs-toggle="modal" data-bs-dismiss="modal"
+                           data-bs-target="#postReportModal{{ post.pk }}" style="text-decoration: none; color: red">
+                            Report
+                        </a>
+                    </div>
+
+                    <div style="border-bottom: 1px solid #dbdbdb;height: 40px;"
+                         class="align-items-center row text-center">
+
+                        {% if post.profile.pk in request_user_followers and request.user.is_authenticated %}
+                            <a style="text-decoration: none; color: red"
+                               href="{% url 'follow' post.profile.pk %}">Unfollow</a>
+                        {% else %}
+                            <a style="text-decoration: none; color: black"
+                               href="{% url 'follow' post.profile.pk %}">Follow</a>
+
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div style="border-bottom: 1px solid #dbdbdb;height: 40px;"
+                         class="align-items-center row text-center">
+                        <a data-bs-toggle="modal" data-bs-target="#deletePostModal{{ post.pk }}"
+                           data-bs-dismiss="modal"
+                           style="text-decoration: none; color: red" href="#">Delete Post</a>
+                    </div>
+                    <div style="border-bottom: 1px solid #dbdbdb;height: 40px;"
+                         class="align-items-center row text-center">
+                        <a style="text-decoration: none; color:black"
+                           href="{% url 'post edit' post.pk %}">Edit post</a>
+                    </div>
+                {% endif %}
+
+                <div style="border-bottom: 1px solid #dbdbdb;height: 40px;"
+                     class="align-items-center row text-center">
+                    <a style="text-decoration: none; color: black"
+                       href="{% url 'post details' post.pk %}">Post details</a>
+                </div>
+                <div style="border-bottom: 1px solid #dbdbdb;height: 40px;"
+                     class="align-items-center row text-center">
+                    <a style="text-decoration: none; color: black" href="{% url 'share post' post.pk %}">Copy link</a>
+                </div>
+                <div class="align-items-center row text-center">
+                    <button style="border:0; background: transparent" type="button"
+                            data-bs-dismiss="modal" aria-label="Close">Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
