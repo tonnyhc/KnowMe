@@ -57,6 +57,7 @@ def direct(request, username):
 
     return render(request, 'direct/direct.html', context)
 
+
 @login_required
 def send_direct(request, username, pk):
     if request.method == "POST":
@@ -64,6 +65,6 @@ def send_direct(request, username, pk):
         if form.is_valid():
             direct = form.save(commit=False)
             direct.sender_id = request.user.profile.pk
-            direct.recipient_id=pk
+            direct.recipient_id = pk
             direct.save()
             return redirect(reverse_lazy('direct', kwargs={'username': username}))
